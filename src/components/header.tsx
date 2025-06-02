@@ -12,12 +12,14 @@ const Header = () => {
         <Link to="/">
         <img src ={theme ==='dark' ? '/logo.png':'logo2.png'} alt="climate logo" className='h-14'/>
         </Link>
-        <div className='flex gap-4'>
+        <div className='flex items-center gap-2 sm:gap-4 w-auto'>
 
             {/* Search  */}
+            <div className="max-w-[140px] sm:max-w-xs flex-shrink">
            <CitySearch />
+           </div>
             <div onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`flex items-center cursor-pointer transition-transform duration-500
+            className={`flex items-center cursor-pointer ml-2 sm:ml-4 transition-transform duration-500
             ${isDark ? 'rotate-180' : 'rotate-0' }
             `} >
             {isDark ?(<Sun className='h-6 w-6 text-yellow-500 rotate-0 transition-all' />
