@@ -6,6 +6,7 @@ import { X, Loader2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { useFavorites } from "../hooks/use-favorite";
 import { toast } from "sonner";
+import { useLanguage } from "../context/language-provider";
 
 interface FavoriteCityTabletProps {
   id: string;
@@ -24,6 +25,7 @@ function FavoriteCityTablet({
 }: FavoriteCityTabletProps) {
   const navigate = useNavigate();
   const { data: weather, isLoading } = useWeatherQuery({ lat, lon });
+  const { language } = useLanguage();
 
   const handleClick = () => {
     navigate(`/city/${name}?lat=${lat}&lon=${lon}`);
@@ -62,7 +64,9 @@ function FavoriteCityTablet({
               className="h-8 w-8"
             />
             <div>
-              <p className="font-medium">{name}</p>
+              <p className="font-medium">
+                {language === "kn" ? name : name}
+              </p>
               <p className="text-xs text-muted-foreground">
                 {weather.sys.country}
               </p>

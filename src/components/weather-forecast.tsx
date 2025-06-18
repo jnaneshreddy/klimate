@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ArrowDown, ArrowUp, Droplets, Wind, Sunrise, Sunset } from "lucide-react"; // Add Sunrise, Sunset
 import { format } from "date-fns";
 import type { ForecastData } from "../api/types";
+import { useLanguage } from '../context/language-provider';
 
 interface WeatherForecastProps {
   data: ForecastData;
@@ -24,6 +25,8 @@ interface DailyForecast {
 }
 
 export function WeatherForecast({ data }: WeatherForecastProps) {
+  const { language } = useLanguage();
+
   // Group forecast by day and get daily min/max
   const dailyForecasts = data.list.reduce((acc, forecast) => {
     const date = format(new Date(forecast.dt * 1000), "yyyy-MM-dd");
@@ -64,7 +67,11 @@ export function WeatherForecast({ data }: WeatherForecastProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>5-Day Forecast ( 5-ದಿನಗಳ ಮುನ್ಸೂಚನೆ )</CardTitle>
+        <CardTitle>
+          {language === "kn"
+            ? "5-ದಿನಗಳ ಮುನ್ಸೂಚನೆ"
+            : "5-Day Forecast"}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4">

@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUp, Droplets, Wind } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import type { GeocodingResponse, WeatherData } from "../api/types";
+import { useLanguage } from '../context/language-provider';
 
 interface CurrentWeatherProps {
   data: WeatherData;
@@ -14,6 +15,7 @@ const CurrentWeather = ({ data, locationName }: CurrentWeatherProps) => {
     wind: { speed },
   } = data;
 
+  const { language } = useLanguage();
 
   const toCelsius = (kelvin: number) => Math.round(kelvin - 273.15);
   const formatTemp = (temp: number) => `${toCelsius(temp)}°C`;
@@ -26,13 +28,18 @@ const CurrentWeather = ({ data, locationName }: CurrentWeatherProps) => {
             <div className="space-y-2">
               <div className="flex items-center">
                 <h2 className="text-2xl font-bold tracking-tight">
-                  {locationName?.local_names?.kn}
+                  {language === "kn"
+                    ? locationName?.local_names?.kn || locationName?.name
+                    : locationName?.name}
                 </h2>
-                {(locationName?.state) && (
+                {locationName?.state && (
                   <span className="text-muted-foreground ml-2 flex items-center">
                     {locationName?.state}
-                    {locationName?.local_names?.kn && (
+                    {language === "kn" && locationName?.name && (
                       <span className="ml-1">({locationName?.name})</span>
+                    )}
+                    {language === "en" && locationName?.local_names?.kn && (
+                      <span className="ml-1">({locationName?.local_names?.kn})</span>
                     )}
                   </span>
                 )}
@@ -67,15 +74,19 @@ const CurrentWeather = ({ data, locationName }: CurrentWeatherProps) => {
               <div className="flex items-center gap-2">
                 <Droplets className="h-4 w-4 text-blue-500" />
                 <div className="space-y-0.5">
-                  <p className="text-sm font-medium">Humidity (ಆರ್ದ್ರತೆ)</p>
+                  <p className="text-sm font-medium">
+                    {language === "kn" ? "ಆರ್ದ್ರತೆ" : "Humidity"}
+                  </p>
                   <p className="text-sm text-muted-foreground">{humidity}%</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Wind className="h-4 w-4 text-blue-500" />
                 <div className="space-y-0.5">
-                  <p className="text-sm font-medium">Wind Speed (ಗಾಳಿಯ ವೇಗ)</p>
-                  <p className="text-sm text-muted-foreground">{speed*3.6} Kmh</p>
+                  <p className="text-sm font-medium">
+                    {language === "kn" ? "ಗಾಳಿಯ ವೇಗ" : "Wind Speed"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">{speed * 3.6} Kmh</p>
                 </div>
               </div>
             </div>

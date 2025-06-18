@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import { format } from "date-fns";
 import type { ForecastData } from "../api/types";
+import { useLanguage } from '../context/language-provider';
 
 interface HourlyTemperatureProps {
   data: ForecastData;
@@ -21,6 +22,7 @@ interface ChartData {
 }
 
 export function HourlyTemperature({ data }: HourlyTemperatureProps) {
+  const { language } = useLanguage();
   const chartData: ChartData[] = data.list
     .slice(0, 8) 
     .map((item) => ({
@@ -32,7 +34,9 @@ export function HourlyTemperature({ data }: HourlyTemperatureProps) {
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle>Today's Temperature ( ಇಂದಿನ ತಾಪಮಾನ )</CardTitle>
+        <CardTitle>
+          {language === "kn" ? "ಇಂದಿನ ತಾಪಮಾನ" : "Today's Temperature"}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[200px] w-full">

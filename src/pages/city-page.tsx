@@ -8,6 +8,7 @@ import { WeatherDetails } from "../components/weather-details";
 import { WeatherForecast } from "../components/weather-forecast";
 import WeatherSkeleton from "../components/loading-skeleton";
 import { FavoriteButton } from "../components/favorite-button";
+import { useLanguage } from '../context/language-provider';
 
 export function CityPage() {
   const [searchParams] = useSearchParams();
@@ -22,6 +23,7 @@ export function CityPage() {
   const locationQuery = useReverseGeocodeQuery(coordinates); // Add this line
 
   const locationName = locationQuery.data?.[0]; // Add this line
+  const { language } = useLanguage();
 
   if (weatherQuery.error || forecastQuery.error) {
     return (
@@ -42,14 +44,11 @@ export function CityPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">
-          {locationName?.local_names?.kn
-            ? <>
-                {locationName.local_names.kn}
-                {locationName?.name && (
-                  <> ({locationName.name})</>
-                )}
-              </>
-            : params.cityName}
+          <span>
+            {language === "kn"
+              ? locationName?.local_names?.kn || locationName?.name
+              : locationName?.name}
+          </span>
           , {weatherQuery.data.sys.country}
         </h1>
         <div className="flex gap-2">

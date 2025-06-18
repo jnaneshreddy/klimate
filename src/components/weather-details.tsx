@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Sunrise, Sunset, Compass, Gauge, Droplets, Thermometer } from "lucide-react";
 import { format } from "date-fns";
 import type { WeatherData } from "../api/types";
+import { useLanguage } from '../context/language-provider';
 
 interface WeatherDetailsProps {
   data: WeatherData;
@@ -9,6 +10,7 @@ interface WeatherDetailsProps {
 
 export function WeatherDetails({ data }: WeatherDetailsProps) {
   const { wind, main, sys } = data;
+  const { language } = useLanguage();
 
   // Format time using date-fns
   const formatTime = (timestamp: number) => {
@@ -25,37 +27,37 @@ export function WeatherDetails({ data }: WeatherDetailsProps) {
 
   const details = [
     {
-      title: "Sunrise ( ಸೂರ್ಯೋದಯ )",
+      title: language === "kn" ? "ಸೂರ್ಯೋದಯ" : "Sunrise",
       value: formatTime(sys.sunrise),
       icon: Sunrise,
       color: "text-orange-500",
     },
     {
-      title: "Sunset ( ಸೂರ್ಯಾಸ್ತ )",
+      title: language === "kn" ? "ಸೂರ್ಯಾಸ್ತ" : "Sunset",
       value: formatTime(sys.sunset),
       icon: Sunset,
       color: "text-blue-500",
     },
     {
-      title: "Wind Direction ( ಗಾಳಿಯ ದಿಕ್ಕು ) ",
+      title: language === "kn" ? "ಗಾಳಿಯ ದಿಕ್ಕು" : "Wind Direction",
       value: `${getWindDirection(wind.deg)} (${wind.deg}°)`,
       icon: Compass,
       color: "text-green-500",
     },
     {
-      title: "Pressure ( ಒತ್ತಡ )",
+      title: language === "kn" ? "ಒತ್ತಡ" : "Pressure",
       value: `${main.pressure} hPa`,
       icon: Gauge,
       color: "text-purple-500",
     },
     {
-      title: "Humidity (ಆದ್ರತೆ)",
+      title: language === "kn" ? "ಆದ್ರತೆ" : "Humidity",
       value: `${main.humidity}%`,
       icon: Droplets,
       color: "text-blue-500",
     },
     {
-      title: "Temperature (ತಾಪಮಾನ)",
+      title: language === "kn" ? "ತಾಪಮಾನ" : "Temperature",
       value: `${Math.round(main.temp - 273.15)}°C`,
       icon: Thermometer,
       color: "text-red-500",

@@ -11,6 +11,7 @@ import { HourlyTemperature } from '../components/hourly-temprature';
 import { WeatherDetails } from '../components/weather-details';
 import { WeatherForecast } from '../components/weather-forecast';
 import { FavoriteCities } from '../components/favorite-cities';
+import { useLanguage } from '../context/language-provider';
 
 const WetherDashboard = () => {
     const {coordinates,error:locationError,getLocation,isLoading:locationLoading} = useGeolocation();
@@ -20,6 +21,7 @@ const WetherDashboard = () => {
     console.log(locationQuery.data)
      console.log(weatherQuery.data)
       console.log(forecastQuery.data)
+      const { language } = useLanguage();
 
 
     const handelRefresh=()=>{
@@ -93,7 +95,9 @@ const locationName = locationQuery.data?.[0];
          <FavoriteCities />
         <div className='flex items-center justify-between'>
              <h1 className='text-xl font-bold tracking-tight'>
-  {locationName?.local_names?.kn || "my location"}
+  {language === "kn"
+    ? locationName?.local_names?.kn || locationName?.name
+    : locationName?.name}
 </h1>
             <Button variant={'outline'}
             size={"icon"}
